@@ -1,5 +1,5 @@
 import express from "express";
-import { createTask  , getTasks , deleteTask , updateTask , updateImpTask , updateComTask , getComTasks , getImpTasks} from "../controllers/tasks.controller.js";
+import { createTask  , getTasks , deleteTask , updateTask , updateImpTask , updateComTask , getComTasks , getImpTasks , getIncTasks} from "../controllers/tasks.controller.js";
 import { authenticate } from "../controllers/user.controller.js";
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.put("/updateImp/:id" , authenticate , updateImpTask)
 router.put("/updateCom/:id" , authenticate , updateComTask)
 router.get("/complete" , authenticate , getComTasks);
 router.get("/important" , authenticate , getImpTasks);
+router.get("/incomplete" , authenticate , getIncTasks);
 
 export default router;
