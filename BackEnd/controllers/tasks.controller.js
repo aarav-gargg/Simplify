@@ -133,6 +133,59 @@ export const updateComTask = async (req, res) => {
     }
 };
 
+export const getImpTasks = async (req, res) => {
+    try {
+        const user = req.user;
+        const userId = user.id;
+   
+        const userWithTasks = await User.findById(userId).populate({
+            path: 'tasks',  
+            match: { important: true },  
+            options: { sort: { createdAt: -1 } } 
+        });
+  
+        if (!userWithTasks) {
+            return res.status(404).json({ message: "User not found" });
+        }
+  
+        const tasks = userWithTasks.tasks;
+        if (tasks.length === 0) {
+            return res.status(200).json({ message: "No important tasks found" });
+        }
+  
+        res.status(200).json(tasks);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+
+export const getComTasks = async (req, res) => {
+    try {
+        const user = req.user;
+        const userId = user.id;
+   
+        const userWithTasks = await User.findById(userId).populate({
+            path: 'tasks',  
+            match: { complete: true },  
+            options: { sort: { createdAt: -1 } } 
+        });
+  
+        if (!userWithTasks) {
+            return res.status(404).json({ message: "User not found" });
+        }
+  
+        const tasks = userWithTasks.tasks;
+        if (tasks.length === 0) {
+            return res.status(200).json({ message: "No important tasks found" });
+        }
+  
+        res.status(200).json(tasks);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
 
 
 
