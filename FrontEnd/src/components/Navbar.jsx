@@ -3,6 +3,7 @@ import { SiGoogletasks } from "react-icons/si";
 import { CgGoogleTasks } from "react-icons/cg";
 import { FaTasks } from "react-icons/fa";
 import { MdPending } from "react-icons/md";
+import { GrTasks } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
@@ -30,13 +31,21 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="flex flex-col bg-sidebar h-screen text-amber-200 p-4">
+    <div className="flex flex-col bg-sidebar h-full text-amber-200 p-4">
+      
+      <div className="flex items-center gap-3 mb-6">
+        <GrTasks className="text-3xl text-amber-200" />
+        <h1 className="text-3xl font-bold text-amber-200">Simplify</h1>
+      </div>
+
+      
       <div className="flex flex-col items-center my-4">
         <h1 className="font-bold text-2xl">Aarav Garg</h1>
         <h3 className="text-sm">aaravgarg975@gmail.com</h3>
       </div>
       <hr className="border-gray-500" />
 
+      
       <div className="my-8 flex flex-col items-center gap-6">
         {data.map((item, index) => (
           <NavLink
@@ -56,6 +65,7 @@ const Navbar = () => {
         ))}
       </div>
 
+      {/* Logout Button */}
       <div className="mt-auto flex justify-center">
         <button className="text-xl font-extrabold py-2 px-6 rounded-lg text-amber-200 hover:scale-125 transition-transform duration-300">
           LogOut
