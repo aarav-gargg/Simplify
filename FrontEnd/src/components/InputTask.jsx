@@ -23,7 +23,7 @@ const InputTask = ({ onCancel , fromEdit , id}) => {
     if(fromEdit == false){
       try {
         e.preventDefault();
-        const response = await axios.post('http://localhost:3000/tasks/create', formData, { headers } );
+        const response = await axios.post('https://simplify-3iue.onrender.com/tasks/create', formData, { headers } );
         console.log(response);
         if(response.status == 201){
           window.location.reload();
@@ -36,7 +36,7 @@ const InputTask = ({ onCancel , fromEdit , id}) => {
     else if(fromEdit == true){
       try {
         e.preventDefault();
-        const response = await axios.post(`http://localhost:3000/tasks/update/${id}`, formData, { headers } );
+        const response = await axios.post(`https://simplify-3iue.onrender.com/tasks/update/${id}`, formData, { headers } );
         console.log(response);
         if(response.status == 200){
           window.location.reload();

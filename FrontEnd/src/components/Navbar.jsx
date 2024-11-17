@@ -41,7 +41,7 @@ const Navbar = () => {
 
   useEffect(()=>{
     const fetch = async () => {
-      const resp = await axios.post("http://localhost:3000/user/getUser" , {id});
+      const resp = await axios.post("https://simplify-3iue.onrender.com/user/getUser" , {id});
       setUser(resp.data);
     }
     fetch();

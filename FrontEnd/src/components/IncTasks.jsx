@@ -15,7 +15,7 @@ const IncTasks = () => {
     const fetchTasks = async () => {
       try {
         const resp = await axios.post(
-          "http://localhost:3000/tasks/incomplete",
+          "https://simplify-3iue.onrender.com/tasks/incomplete",
           {},
           { headers }
         );

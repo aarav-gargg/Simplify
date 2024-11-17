@@ -28,7 +28,7 @@ const SignUp = () => {
     }
     else {
       try {
-        const resp = await axios.post("http://localhost:3000/user/signUp", formData);
+        const resp = await axios.post("https://simplify-3iue.onrender.com/user/signUp", formData);
         if(resp.status == 200){
           alert("USER SIGNED UP SUCCESSFULLY LOGIN TO CONTINUE");
           navigate("/login");

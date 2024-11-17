@@ -25,7 +25,7 @@ const LogIn = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const resp = await axios.post("http://localhost:3000/user/login", formData)
+      const resp = await axios.post("https://simplify-3iue.onrender.com/user/login", formData)
       setFormData({ email: "", password: "" });
       if(resp.status==200){
         localStorage.setItem("id" , resp.data.id);

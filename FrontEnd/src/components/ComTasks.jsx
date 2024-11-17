@@ -15,7 +15,7 @@ const ComTasks = () => {
     const fetchTasks = async () => {
       try {
         const resp = await axios.post(
-          "http://localhost:3000/tasks/complete",
+          "https://simplify-3iue.onrender.com/tasks/complete",
           {},
           { headers }
         );

@@ -10,7 +10,7 @@ const Task = ({ title, description, complete, important, id }) => {
 
   const handleDelete = async () => {
     try {
-      const resp = await axios.post(`http://localhost:3000/tasks/delete-task/${id}`, {}, { headers });
+      const resp = await axios.post(`https://simplify-3iue.onrender.com/tasks/delete-task/${id}`, {}, { headers });
       if (resp.status === 200) {
         window.location.reload();
       }
@@ -31,7 +31,7 @@ const Task = ({ title, description, complete, important, id }) => {
 
   const toggleImportant = async () => {
     try {
-      const resp = await axios.post(`http://localhost:3000/tasks/updateImp/${id}`, {}, { headers });
+      const resp = await axios.post(`https://simplify-3iue.onrender.com/tasks/updateImp/${id}`, {}, { headers });
       if (resp.status === 200) {
         window.location.reload();
       }
@@ -44,7 +44,7 @@ const Task = ({ title, description, complete, important, id }) => {
 
   const toggleComplete = async () => {
     try {
-      const resp = await axios.post(`http://localhost:3000/tasks/updateCom/${id}`, {}, { headers });
+      const resp = await axios.post(`https://simplify-3iue.onrender.com/tasks/updateCom/${id}`, {}, { headers });
       if (resp.status === 200) {
         window.location.reload();
       }

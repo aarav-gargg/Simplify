@@ -17,7 +17,7 @@ const Tasks = () => {
     const fetchTasks = async () => {
       try {
         const resp = await axios.post(
-          "http://localhost:3000/tasks/all",
+          "https://simplify-3iue.onrender.com/tasks/all",
           {}, 
           { headers }
         );
