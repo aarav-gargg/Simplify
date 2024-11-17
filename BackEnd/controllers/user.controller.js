@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 export const signup = async (req, res) => {
   try {
-    const { email, name, password } = req.body;
+    const { email, name, password , confirmPassword } = req.body;
 
     const userExists = await User.findOne({ email: email });
     if (userExists) {
@@ -40,8 +40,10 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email , password);
 
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(401).json({ message: "NO SUCH USER EXISTS" });
     }
@@ -52,8 +54,9 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '2d' });
-
+    const id = user._id;
     return res.status(200).json({
+      id,
       token,
       message: "LOGGED IN SUCCESSFULLY",
     });
@@ -85,4 +88,19 @@ export const authenticate = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 
+}
+
+export const getUserById = async (req,res) => {
+  try {
+    const {id} = req.body;
+
+    const user = await User.findById(id);
+  
+    if(user){
+      return res.status(200).send(user);
+    }
+
+  } catch (error) {
+     return res.status(500).json({ message: error.message });
+  }
 }

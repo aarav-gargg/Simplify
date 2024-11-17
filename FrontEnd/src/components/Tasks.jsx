@@ -1,32 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Task from './Task';
+import axios from "axios"
 import { IoAddOutline } from "react-icons/io5";
 import InputTask from './InputTask';
 
 const Tasks = () => {
-  const [showInputTask, setShowInputTask] = useState(false);  
+  const [showInputTask, setShowInputTask] = useState(false);
   
+  const [tasks, setTasks] = useState([]);
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const resp = await axios.post(
+          "http://localhost:3000/tasks/all",
+          {}, 
+          { headers }
+        );
   
-  const data = [
-    {
-      title: 'First Task',
-      description: 'This is the first task and it must be completed first',
-      important: true,
-      complete: true,
-    },
-    {
-      title: 'Second Task',
-      description: 'This is the second task and it should follow the first task.',
-      important: true,
-      complete: false,
-    },
-    {
-      title: 'First Task',
-      description: 'This is the first task and it must be completed first.',
-      important: false,
-      complete: true,
-    }
-  ];
+        const formattedTasks = resp.data.map((task) => ({
+          id:task._id,
+          title: task.title,
+          description: task.description,
+          important: task.important,
+          complete: task.complete,
+        }));
+  
+        setTasks(formattedTasks);
+        console.log("Tasks fetched successfully:", formattedTasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error.response?.data || error.message);
+      }
+    };
+  
+    fetchTasks();
+  }, []);
+
+  
 
   const handleAddClick = () => {
     setShowInputTask(!showInputTask); 
@@ -50,13 +64,14 @@ const Tasks = () => {
         </div>
         <hr className="my-2" />
         <div className="flex flex-col space-y-6 mt-4">
-          {data.map((item, index) => (
+          {tasks.map((item, index) => (
             <Task 
               key={index} 
               title={item.title} 
               description={item.description} 
               complete={item.complete} 
               important={item.important} 
+              id={item.id}
             />
           ))}
         </div>

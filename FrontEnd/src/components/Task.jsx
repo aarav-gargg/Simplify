@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-const Task = ({ title, description , complete , important }) => {
+const Task = ({ title, description , complete , important , id}) => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isImportant , setImportant] = useState({complete});
   const [isComplete , setComplete] = useState({important});
 
-  useEffect(() => {
-    console.log(isComplete);
-    console.log(isImportant);
-  },[isComplete , isImportant]);
+  // useEffect(() => {
+  //   console.log(isComplete);
+  //   console.log(isImportant);
+  // },[isComplete , isImportant]);
 
   const toggleImportant = () => {
     setImportant(!isImportant);

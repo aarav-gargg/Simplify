@@ -1,7 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdCancel } from "react-icons/md";
+import axios from 'axios'
 
-const InputTask = ({ onCancel }) => {
+const InputTask = ({ onCancel}) => {
+  
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+  });
+
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await axios.post('http://localhost:3000/tasks/create', formData, { headers } );
+      console.log(response);
+      if(response.status == 201){
+        window.location.reload();
+      }
+      setFormData({ title: "", description: "" }); 
+    } catch (error) {
+      console.error("Error fetching tasks:", error.response?.data || error.message);
+    }
+  };
+
   return (
     <>
       <div className='fixed top-0 left-0 opacity-60 h-screen w-screen bg-black'></div>
@@ -13,13 +44,35 @@ const InputTask = ({ onCancel }) => {
               <MdCancel className='text-3xl' />
             </button>
           </div>
-          <label htmlFor="title" className='text-gray-400 text-lg font-semibold'>Title for your Task</label>
-          <input type='text' placeholder='Title' name='title' className='w-full p-3 text-black border border-white rounded-xl my-2' />
-          <label htmlFor="description" className='text-gray-400 text-lg font-semibold'>Describe your Task</label>
-          <textarea type='text' placeholder='Description' name='description' className='w-full h-32 p-3 my-2 text-black border border-white rounded-xl' />
-          <div className='flex justify-center items-center'>
-            <button className='bg-green-500 hover:bg-green-700 text-white font-bold p-3 font-sourgummy rounded-lg'>ADD TASK</button>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="title" className='text-gray-400 text-lg font-semibold'>Title for your Task</label>
+            <input
+              type='text'
+              placeholder='Title'
+              name='title'
+              value={formData.title}
+              onChange={handleChange}
+              className='w-full p-3 text-black border border-white rounded-xl my-2'
+              required
+            />
+            <label htmlFor="description" className='text-gray-400 text-lg font-semibold'>Describe your Task</label>
+            <textarea
+              placeholder='Description'
+              name='description'
+              value={formData.description}
+              onChange={handleChange}
+              className='w-full h-32 p-3 my-2 text-black border border-white rounded-xl'
+              required
+            />
+            <div className='flex justify-center items-center'>
+              <button
+                type='submit'
+                className='bg-green-500 hover:bg-green-700 text-white font-bold p-3 font-sourgummy rounded-lg'
+              >
+                ADD TASK
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </>

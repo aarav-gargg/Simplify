@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SiGoogletasks } from "react-icons/si";
 import { CgGoogleTasks } from "react-icons/cg";
 import { FaTasks } from "react-icons/fa";
 import { MdPending } from "react-icons/md";
 import { GrTasks } from "react-icons/gr";
+import {useDispatch} from "react-redux"
+import { Auth } from '../store/auth.js';
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+import { useState } from "react";
 
 const Navbar = () => {
   const data = [
@@ -29,6 +34,24 @@ const Navbar = () => {
       url: "complete",
     },
   ];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const id = localStorage.getItem("id");
+  const [user , setUser] = useState({});
+
+  useEffect(()=>{
+    const fetch = async () => {
+      const resp = await axios.post("http://localhost:3000/user/getUser" , {id});
+      setUser(resp.data);
+    }
+    fetch();
+  },[])
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    dispatch(Auth.logout());
+    navigate("/signup")
+  }
 
   return (
     <div className="flex flex-col bg-sidebar h-full text-amber-200 p-4">
@@ -40,8 +63,8 @@ const Navbar = () => {
 
       
       <div className="flex flex-col items-center my-4">
-        <h1 className="font-bold text-2xl">Aarav Garg</h1>
-        <h3 className="text-sm">aaravgarg975@gmail.com</h3>
+        <h1 className="font-bold text-2xl">{user.name}</h1>
+        <h3 className="text-sm">{user.email}</h3>
       </div>
       <hr className="border-gray-500" />
 
@@ -67,7 +90,7 @@ const Navbar = () => {
 
       {/* Logout Button */}
       <div className="mt-auto flex justify-center">
-        <button className="text-xl font-extrabold py-2 px-6 rounded-lg text-amber-200 hover:scale-125 transition-transform duration-300">
+        <button className="text-xl font-extrabold py-2 px-6 rounded-lg text-amber-200 hover:scale-125 transition-transform duration-300" onClick={logout}>
           LogOut
         </button>
       </div>

@@ -5,13 +5,13 @@ import { authenticate } from "../controllers/user.controller.js";
 const router = express.Router();
 
 router.post("/create" , authenticate , createTask);
-router.get("/all" , authenticate , getTasks);
+router.post("/all" , authenticate , getTasks);
 router.delete("/delete-task/:id" , authenticate , deleteTask);
-router.put("/update/:id" , authenticate , updateTask)
-router.put("/updateImp/:id" , authenticate , updateImpTask)
-router.put("/updateCom/:id" , authenticate , updateComTask)
-router.get("/complete" , authenticate , getComTasks);
-router.get("/important" , authenticate , getImpTasks);
-router.get("/incomplete" , authenticate , getIncTasks);
+router.post("/update/:id" , authenticate , updateTask)
+router.post("/updateImp/:id" , authenticate , updateImpTask)
+router.post("/updateCom/:id" , authenticate , updateComTask)
+router.post("/complete" , authenticate , getComTasks);
+router.post("/important" , authenticate , getImpTasks);
+router.post("/incomplete" , authenticate , getIncTasks);
 
 export default router;

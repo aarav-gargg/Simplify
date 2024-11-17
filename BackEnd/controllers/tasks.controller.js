@@ -150,7 +150,7 @@ export const getImpTasks = async (req, res) => {
   
         const tasks = userWithTasks.tasks;
         if (tasks.length === 0) {
-            return res.status(200).json({ message: "No important tasks found" });
+            return res.status(201).json({ message: "No important tasks found" });
         }
   
         res.status(200).json(tasks);
@@ -177,7 +177,7 @@ export const getComTasks = async (req, res) => {
   
         const tasks = userWithTasks.tasks;
         if (tasks.length === 0) {
-            return res.status(200).json({ message: "No important tasks found" });
+            return res.status(201).json({ message: "No important tasks found" });
         }
   
         res.status(200).json(tasks);
@@ -205,7 +205,7 @@ export const getIncTasks = async (req, res) => {
         const tasks = userWithTasks.tasks;
 
         if (tasks.length === 0) {
-            return res.status(200).json({ message: "No incomplete tasks found" });
+            return res.status(201).json({ message: "No incomplete tasks found" });
         }
 
         res.status(200).json(tasks);

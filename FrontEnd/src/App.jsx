@@ -10,6 +10,8 @@ import { HiMenu } from 'react-icons/hi';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import { useLocation } from 'react-router-dom';
+import { Auth } from './store/auth.js';
+import {useDispatch} from "react-redux"
 
 function AppLayout() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -63,16 +65,22 @@ function AppLayout() {
 }
 
 function App() {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/login"); 
+    if (localStorage.getItem("id") && localStorage.getItem("token") && !isLoggedIn) {
+      dispatch(Auth.login());
     }
-  }, [isLoggedIn, navigate]);
+    else if (isLoggedIn == false && !["/login", "/signup"].includes(location.pathname)) {
+      navigate("/signup");
+    }
+  }, [dispatch, isLoggedIn, navigate, location.pathname]);
 
   return (
-    <Routes>  
+    <Routes>
       <Route path="/" element={<AppLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/incomplete" element={<IncTasks />} />
@@ -86,3 +94,4 @@ function App() {
 }
 
 export default App;
+

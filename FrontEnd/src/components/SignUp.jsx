@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-
-  
-
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
+  if(isLoggedIn == true){
+    navigate("/");
+  }
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,18 +20,31 @@ const SignUp = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    console.log("Form Submitted:", formData);
-    setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+    else {
+      try {
+        const resp = await axios.post("http://localhost:3000/user/signUp", formData);
+        if(resp.status == 200){
+          alert("USER SIGNED UP SUCCESSFULLY LOGIN TO CONTINUE");
+          navigate("/login");
+        }
+
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.message || "An unexpected error occurred.";
+        alert(errorMessage);
+        console.error("Error details:", error);
+      }
+    }
   };
-  useEffect(()=>{
+  useEffect(() => {
     console.log(formData)
-  },[formData])
+  }, [formData])
 
   return (
     <div className="bg-gradient-to-r from-gray-950 via-black to-gray-900 min-h-screen flex items-center justify-center p-4">
