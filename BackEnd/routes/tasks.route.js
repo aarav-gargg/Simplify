@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/create" , authenticate , createTask);
 router.post("/all" , authenticate , getTasks);
-router.delete("/delete-task/:id" , authenticate , deleteTask);
+router.post("/delete-task/:id" , authenticate , deleteTask);
 router.post("/update/:id" , authenticate , updateTask)
 router.post("/updateImp/:id" , authenticate , updateImpTask)
 router.post("/updateCom/:id" , authenticate , updateComTask)

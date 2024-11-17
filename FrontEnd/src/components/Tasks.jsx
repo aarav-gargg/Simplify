@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Task from './Task';
-import axios from "axios"
+import axios from "axios";
 import { IoAddOutline } from "react-icons/io5";
 import InputTask from './InputTask';
 
 const Tasks = () => {
   const [showInputTask, setShowInputTask] = useState(false);
-  
   const [tasks, setTasks] = useState([]);
+  
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -21,26 +21,24 @@ const Tasks = () => {
           {}, 
           { headers }
         );
-  
+
         const formattedTasks = resp.data.map((task) => ({
-          id:task._id,
+          id: task._id,
           title: task.title,
           description: task.description,
           important: task.important,
           complete: task.complete,
         }));
-  
+
         setTasks(formattedTasks);
         console.log("Tasks fetched successfully:", formattedTasks);
       } catch (error) {
         console.error("Error fetching tasks:", error.response?.data || error.message);
       }
     };
-  
+
     fetchTasks();
   }, []);
-
-  
 
   const handleAddClick = () => {
     setShowInputTask(!showInputTask); 
@@ -64,20 +62,22 @@ const Tasks = () => {
         </div>
         <hr className="my-2" />
         <div className="flex flex-col space-y-6 mt-4">
-          {tasks.map((item, index) => (
-            <Task 
-              key={index} 
-              title={item.title} 
-              description={item.description} 
-              complete={item.complete} 
-              important={item.important} 
-              id={item.id}
-            />
-          ))}
+          {tasks
+            .filter((task) => !task.complete) 
+            .map((item, index) => (
+              <Task 
+                key={index} 
+                title={item.title} 
+                description={item.description} 
+                complete={item.complete} 
+                important={item.important} 
+                id={item.id}
+              />
+            ))}
         </div>
       </div>
 
-      {showInputTask && <InputTask onCancel={handleCancel} />}
+      {showInputTask && <InputTask onCancel={handleCancel} fromEdit={false} id={null} />}
     </>
   );
 };

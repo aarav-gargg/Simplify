@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MdCancel } from "react-icons/md";
 import axios from 'axios'
 
-const InputTask = ({ onCancel}) => {
+const InputTask = ({ onCancel , fromEdit , id}) => {
   
   const [formData, setFormData] = useState({
     title: "",
@@ -20,16 +20,31 @@ const InputTask = ({ onCancel}) => {
   };
 
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      const response = await axios.post('http://localhost:3000/tasks/create', formData, { headers } );
-      console.log(response);
-      if(response.status == 201){
-        window.location.reload();
+    if(fromEdit == false){
+      try {
+        e.preventDefault();
+        const response = await axios.post('http://localhost:3000/tasks/create', formData, { headers } );
+        console.log(response);
+        if(response.status == 201){
+          window.location.reload();
+        }
+        setFormData({ title: "", description: "" }); 
+      } catch (error) {
+        console.error("Error fetching tasks:", error.response?.data || error.message);
       }
-      setFormData({ title: "", description: "" }); 
-    } catch (error) {
-      console.error("Error fetching tasks:", error.response?.data || error.message);
+    }
+    else if(fromEdit == true){
+      try {
+        e.preventDefault();
+        const response = await axios.post(`http://localhost:3000/tasks/update/${id}`, formData, { headers } );
+        console.log(response);
+        if(response.status == 200){
+          window.location.reload();
+        }
+        setFormData({ title: "", description: "" }); 
+      } catch (error) {
+        console.error("Error fetching tasks:", error.response?.data || error.message);
+      }
     }
   };
 

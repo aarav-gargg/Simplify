@@ -48,6 +48,7 @@ export const getTasks = async (req, res) => {
 };
 
 export const deleteTask = async (req, res) => {
+    console.log("REACHED HERE");
     try {
         const { id } = req.params;  
         const user = req.user;  
