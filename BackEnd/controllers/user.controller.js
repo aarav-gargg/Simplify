@@ -104,3 +104,13 @@ export const getUserById = async (req,res) => {
      return res.status(500).json({ message: error.message });
   }
 }
+
+export const hitApi = async (req,res) => {
+  try {
+    res.status(200).json({
+      message: "API hit successfully"
+    })
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
