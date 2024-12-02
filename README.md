@@ -30,3 +30,4 @@ npm install
 Navigate to BackEnd folder
 cd BackEnd  
 npm install  
+set up the env variables for the MONGO_URL and the SECRET_KEY 
